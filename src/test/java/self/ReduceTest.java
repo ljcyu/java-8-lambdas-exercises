@@ -4,8 +4,6 @@ import org.junit.Test;
 
 import java.util.stream.Stream;
 
-import static java.lang.System.out;
-import static java.util.Arrays.*;
 import static org.junit.Assert.assertEquals;
 
 /**
