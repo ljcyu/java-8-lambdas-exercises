@@ -26,4 +26,15 @@ public class ReduceTest {
     });
     assertEquals(24, res);
   }
+  @Test
+  /**reduce一参数版本和两参数版本区别*/
+  public void sumOp2(){
+    int res=Stream.of(1, 2, 3).reduce((x,y)->x+y).get();
+    assertEquals(6, res);
+    String resStr=Stream.of("hello","java","test").reduce((x,y)->x+y).get();
+    System.out.println(resStr);
+    int resMax = Stream.of(2, 3, 24, 5).reduce(Integer::max).get();
+    assertEquals(24, resMax);
+    System.out.println(resMax);
+  }
 }
