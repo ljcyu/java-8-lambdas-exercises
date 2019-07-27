@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BinaryOperator;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -27,9 +28,35 @@ public class Ans3 {
       if (predicate.test(element)) accu.add(element);
       return accu;
     }, (left, right) -> {
+      System.out.println("-->left "+left);
+      System.out.println("-->right "+right);
       left.addAll(right);
+      System.out.println("<--left "+left);
       return left;
     });
     return res;
+  }
+  /**reduce三参数和两参数的区别*/
+  @Test public void testFilter(){
+    List<Integer> res=filter(Stream.of(1,7,8,9,2,3,5,6),num->num>3);
+    System.out.println(res.size());
+  }
+  public <T> List<T> filterByParallel(Stream<T> stream, Predicate<T> predicate) {
+    CopyOnWriteArrayList<T> res = new CopyOnWriteArrayList<>();
+    stream.reduce(res, (List<T> accu, T element) -> {
+      if (predicate.test(element)) accu.add(element);
+      return accu;
+    }, (left, right) -> {
+      System.out.println("-->left "+left);
+      System.out.println("-->right "+right);
+      left.addAll(right);
+      System.out.println("<--left "+left);
+      return left;
+    });
+    return res;
+  }
+  @Test public void testFilterByParallel(){
+    List<Integer> res=filterByParallel(Stream.of(1,7,8,9,2,3,5,6).parallel(),num->num>3);
+    System.out.println(res.size());
   }
 }
