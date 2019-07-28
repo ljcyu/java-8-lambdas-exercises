@@ -4,12 +4,14 @@ import com.insightfullogic.java8.examples.chapter1.Album;
 import com.insightfullogic.java8.examples.chapter1.Artist;
 import com.insightfullogic.java8.examples.chapter1.SampleData;
 import javassist.tools.rmi.Sample;
+import org.apache.commons.lang3.builder.ToStringExclude;
 import org.junit.Test;
 
 
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.*;
@@ -32,6 +34,11 @@ public class Ch5Example {
   public void groupBySelf(){
     Map<Artist,List<Album>> res=SampleData.getThreeAlbums().stream().collect(groupingBy(Album::getMainMusician));
     assertFalse(res.isEmpty());
+    System.out.println(res);
+  }
+  @Test
+  public void joingSelf(){
+    String res=SampleData.threeArtists().map(Artist::getName).collect(Collectors.joining(",","[","]"));
     System.out.println(res);
   }
 }
