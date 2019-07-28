@@ -3,9 +3,11 @@ package self;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BinaryOperator;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -22,6 +24,7 @@ public class Ans3 {
     assertEquals(12, addUp(Stream.of(3, 4, 5)));
   }
 
+  /**reduce实现filter*/
   public <T> List<T> filter(Stream<T> stream, Predicate<T> predicate) {
     List<T> res = new ArrayList<>();
     stream.reduce(res, (List<T> accu, T element) -> {
@@ -58,5 +61,21 @@ public class Ans3 {
   @Test public void testFilterByParallel(){
     List<Integer> res=filterByParallel(Stream.of(1,7,8,9,2,3,5,6).parallel(),num->num>3);
     System.out.println(res.size());
+  }
+  public <T,R> List<R> map(Stream<T> stream, Function<? super T,? extends R> mapper){
+    List<R> res=new ArrayList<>();
+    stream.reduce(res,(List<R> accu,T element)->{
+      accu.add(mapper.apply(element));
+      return accu;
+    },(left,right)->{
+      left.addAll(right);
+      return left;
+    });
+    return res;
+  }
+  @Test
+  public void testSelfMap(){
+    List<Character> res=map(Stream.of("hello","world","test"),str->str.charAt(0));
+    assertEquals(res, Arrays.asList('h','w','t'));
   }
 }
