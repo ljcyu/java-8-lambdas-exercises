@@ -37,6 +37,16 @@ public class Ch5Example {
     System.out.println(res);
   }
   @Test
+  public void albumCountByArtist(){
+    Map<Artist,Long> res=SampleData.getThreeAlbums().stream().collect(groupingBy(Album::getMainMusician,counting()));
+    System.out.println(res);
+  }
+  @Test
+  public void albumNameByArtist(){
+    Map<Artist,List<String>> res=SampleData.getThreeAlbums().stream().collect(groupingBy(Album::getMainMusician,mapping(Album::getName,toList())));
+    System.out.println(res);
+  }
+  @Test
   public void joingSelf(){
     String res=SampleData.threeArtists().map(Artist::getName).collect(Collectors.joining(",","[","]"));
     System.out.println(res);
