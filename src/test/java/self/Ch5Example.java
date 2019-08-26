@@ -51,4 +51,17 @@ public class Ch5Example {
     String res=SampleData.threeArtists().map(Artist::getName).collect(Collectors.joining(",","[","]"));
     System.out.println(res);
   }
+  /**用reduce实现joint*/
+  @Test
+  public void selfJoinByReduce(){
+    StringBuilder res=SampleData.getThreeArtists().stream()
+            .map(Artist::getName)
+            .reduce(new StringBuilder(),(builder,ele)->{
+      if(builder.length()>0) builder.append(",");
+      builder.append(ele);
+      return builder;
+    },(left,right)->left.append(right));
+    System.out.println(res);
+
+  }
 }
