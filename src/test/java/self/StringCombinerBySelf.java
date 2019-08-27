@@ -5,14 +5,18 @@ import com.insightfullogic.java8.examples.chapter1.Artist;
 import com.insightfullogic.java8.examples.chapter1.SampleData;
 import org.junit.Test;
 
+import java.util.TreeSet;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 public class StringCombinerBySelf {
   String delimeter,prefix,suffix;
-  static StringBuilder sb=new StringBuilder();
-  public  nStringCombinerBySelf(String _delimeter,String _prefix,String _suffix){
+  StringBuilder sb;
+  public  StringCombinerBySelf(String _delimeter,String _prefix,String _suffix){
     this.delimeter=_delimeter;
     this.prefix=_prefix;
     this.suffix=_suffix;
-
+    sb = new StringBuilder();
   }
   public StringCombinerBySelf add(String ele){
     if(sb.length()!=0){
@@ -29,14 +33,6 @@ public class StringCombinerBySelf {
   @Override
   public String toString() {
     return prefix+sb.toString()+suffix;
-  }
-  @Test
-  public void testSelfCollector(){
-    StringCombinerBySelf res=SampleData.getThreeAlbums().stream().map(Album::getName)
-        .reduce(new StringCombinerBySelf(",","[","]"),
-            StringCombinerBySelf::add,
-            StringCombinerBySelf::merge);
-    System.out.println(res);
   }
 }
 

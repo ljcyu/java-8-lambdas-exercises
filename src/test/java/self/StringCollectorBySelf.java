@@ -4,17 +4,24 @@ import com.insightfullogic.java8.examples.chapter1.Album;
 import com.insightfullogic.java8.examples.chapter1.SampleData;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
-
-public class StringCollectorBySelf implements Collector<String,StringCombinerBySelf,StringCombinerBySelf> {
+//T,A,R
+public class StringCollectorBySelf implements Collector<String,StringCombinerBySelf,String> {
+  String delimeter,prefix,suffix;
+  public StringCollectorBySelf(String _delimeter,String _prefix,String _suffix){
+    this.delimeter=_delimeter;
+    this.prefix=_prefix;
+    this.suffix=_suffix;
+  }
   @Override
   public Supplier<StringCombinerBySelf> supplier() {
-    return ()->new StringCombinerBySelf(",","[","]");
+    return ()->new StringCombinerBySelf(delimeter,prefix,suffix);
   }
 
   @Override
@@ -29,17 +36,11 @@ public class StringCollectorBySelf implements Collector<String,StringCombinerByS
 
   @Override
   public Set<Characteristics> characteristics() {
-    return null;
+    return Collections.emptySet();
   }
 
   @Override
-  public Function<StringCombinerBySelf, StringCombinerBySelf> finisher() {
-    return (it)->{
-      if(it.sb.length()!=0){
-        it.sb.append(it.suffix);
-      }
-      return it;
-    };
+  public Function<StringCombinerBySelf, String> finisher() {
+    return StringCombinerBySelf::toString;
   }
-
 }
