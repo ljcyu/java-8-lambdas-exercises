@@ -3,6 +3,8 @@ package self;
 import org.junit.Test;
 
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,5 +25,24 @@ public class Ans5 {
     String res=names.max(byLength).get();
     //String res2=names.collect(Collectors.maxBy(byLength)).get();
     System.out.println(res);
+  }
+  Map<Integer,Integer> fibs=new HashMap<>();
+  public int fib(int i){
+    return fibs.computeIfAbsent(i,(num)->{
+      System.out.println("..computing..."+num);
+      int val=fib(num-1)+fib(num-2);
+      fibs.put(num,val);
+      return val;
+    });
+  }
+  @Test
+  public void testFib(){
+    fibs.put(1,1);
+    fibs.put(2,1);
+    System.out.println(fib(4));
+    System.out.println(fib(5));
+    System.out.println(fib(4));
+    System.out.println(fib(6));
+    System.out.println(fibs);
   }
 }
