@@ -26,13 +26,12 @@ public class Ans5 {
     //String res2=names.collect(Collectors.maxBy(byLength)).get();
     System.out.println(res);
   }
+  //computeIfAbsent会在计算完后放入Map中，不要自己put
   Map<Integer,Integer> fibs=new HashMap<>();
   public int fib(int i){
     return fibs.computeIfAbsent(i,(num)->{
       System.out.println("..computing..."+num);
-      int val=fib(num-1)+fib(num-2);
-      fibs.put(num,val);
-      return val;
+      return fib(num-1)+fib(num-2);
     });
   }
   @Test
