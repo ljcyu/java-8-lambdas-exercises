@@ -31,11 +31,22 @@ public class SelfGroupingBy<K,T> implements Collector<T,Map<K,List<T>>, Map<K,Li
       return;
     };
   }
-
-  @Override
-  public BinaryOperator<Map<K, List<T>>> combiner() {
+  /**这个方法确实不行，key分为left有、right有、两边都有，需要不同处理*/
+  public BinaryOperator<Map<K, List<T>>> combiner2() {
     return (Map<K,List<T>> left,Map<K,List<T>> right)->{
       left.putAll(right);
+      return left;
+    };
+  }
+  @Override
+  public BinaryOperator<Map<K, List<T>>> combiner() {
+    return (left,right)->{
+      right.forEach((key,value)->{
+        left.merge(key,value,(leftVal,rightVal)->{
+          leftVal.addAll(rightVal);
+          return leftVal;
+        });
+      });
       return left;
     };
   }
