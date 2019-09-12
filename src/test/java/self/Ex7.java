@@ -5,6 +5,8 @@ import com.insightfullogic.java8.examples.chapter1.SampleData;
 import com.insightfullogic.java8.examples.chapter1.Track;
 import org.junit.Test;
 
+import java.util.function.ToLongFunction;
+
 
 public class Ex7 {
     @Test
@@ -43,4 +45,14 @@ public class Ex7 {
         long num2=SampleData.getThreeAlbums().stream().map(album->album.getTrackList().size()).reduce(Integer::sum).get();
         System.out.println(num2);
     }
+    public void countFeature(ToLongFunction<Album> function){
+        long res=SampleData.getThreeAlbums().stream().mapToLong(function).sum();
+        System.out.println(res);
+    }
+    @Test
+    public void countTracks3(){
+        countFeature(album->album.getTrackList().size());
+    }
+
+
 }
