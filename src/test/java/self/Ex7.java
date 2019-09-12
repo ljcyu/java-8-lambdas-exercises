@@ -14,15 +14,32 @@ public class Ex7 {
         System.out.println(time);
     }
     @Test
+    public void countRunningTime2(){
+        long time=SampleData.getThreeAlbums().stream()
+                .mapToLong(
+                        album->album.getTracks().
+                                mapToLong(track->track.getLength())
+                                .sum())
+                .sum();
+        System.out.println(time);
+    }
+    @Test
     public void countMusicians(){
         long count=SampleData.getThreeAlbums().stream().flatMap(Album::getMusicians).count();
         System.out.println(count);
 
     }
     @Test
+    public void countMusicians2(){
+        long count=SampleData.getThreeAlbums().stream()
+                .mapToLong(album->album.getMusicians().count()).sum();
+        System.out.println(count);
+
+    }
+    @Test
     public void countTracks(){
-        long num=SampleData.getThreeAlbums().stream().flatMap(Album::getTracks).count();
-        System.out.println(num);
+        /*long num=SampleData.getThreeAlbums().stream().flatMap(Album::getTracks).count();
+        System.out.println(num);*/
         long num2=SampleData.getThreeAlbums().stream().map(album->album.getTrackList().size()).reduce(Integer::sum).get();
         System.out.println(num2);
     }
