@@ -1,0 +1,47 @@
+package self;
+
+import org.junit.Test;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
+
+public class Ex3 {
+    @Test
+    public void upperCase(){
+        List<String> res=asList("a","b","c").stream().map(String::toUpperCase).collect(toList());
+        System.out.println(res);
+    }
+    /**是否数字开始*/
+    @Test
+    public void testDigitStart(){
+        List<String> res=asList("a","23daf","b").stream().filter(Ex3::isDigitStart).collect(toList());
+        System.out.println(res);
+    }
+    public static boolean isDigitStart(String str){
+        return Character.isDigit(str.charAt(0));
+    }
+
+    @Test
+    public void testFlatMap(){
+        List<Integer> res=Stream.of(asList(1,2),asList(3,4)).flatMap(it->it.stream()).collect(toList());
+        System.out.println(res);
+    }
+
+    @Test
+    public void minByReduce(){
+        int res=asList(4,5,6,3,4).stream().reduce((accum,x)->{
+            return accum<x?accum:x;
+        }).get();
+        int res2=asList(4,5,6,3,4).stream().reduce(Integer::min).get();
+        System.out.println(res+" "+res2);
+    }
+    @Test
+    public void minByReduce2(){
+        int res=asList(4,5,6,3,4).stream().reduce(Integer.MAX_VALUE,Integer::min).intValue();
+        System.out.println(res);
+    }
+}
