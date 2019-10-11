@@ -44,4 +44,10 @@ public class Ex3 {
         int res=asList(4,5,6,3,4).stream().reduce(Integer.MAX_VALUE,Integer::min).intValue();
         System.out.println(res);
     }
+
+    @Test
+    public void sumByReduce(){
+        int res=asList(3,4,5,2,1).stream().reduce(Integer::sum).get();
+        System.out.println(res);
+    }
 }
