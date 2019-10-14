@@ -1,5 +1,8 @@
 package self;
 
+import com.insightfullogic.java8.examples.chapter1.Album;
+import com.insightfullogic.java8.examples.chapter1.SampleData;
+import com.insightfullogic.java8.examples.chapter1.Track;
 import org.junit.Test;
 
 import java.util.List;
@@ -48,6 +51,19 @@ public class Ex3 {
     @Test
     public void sumByReduce(){
         int res=asList(3,4,5,2,1).stream().reduce(Integer::sum).get();
+        System.out.println(res);
+    }
+    public static boolean timeMoreThan60s(Track track){
+        return track.getLength()>60;
+    }
+    /**找到时长超过1分钟*/
+    @Test
+    public void findTracks(){
+        List<String> res=SampleData.getThreeAlbums().stream()
+            .flatMap(Album::getTracks)
+            .filter(Ex3::timeMoreThan60s)
+            .map(Track::getName)
+            .collect(toList());
         System.out.println(res);
     }
 }
