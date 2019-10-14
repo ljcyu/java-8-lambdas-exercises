@@ -66,4 +66,9 @@ public class Ex3 {
             .collect(toList());
         System.out.println(res);
     }
+    @Test
+    public void addUp(){
+        int res=asList(2,3,4,4).stream().reduce(Integer::sum).get();
+        System.out.println(res);
+    }
 }
