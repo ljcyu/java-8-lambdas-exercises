@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -67,6 +68,22 @@ public class Ans3_2 {
         left.addAll(right);
         return left;
       });
+    return res;
+  }
+  @Test
+  public void testSelfFilter(){
+    List<Integer> nums=asList(1,2,3,34);
+    List<Integer> res=filterBySelf(nums.stream(),num->num>3);
+    System.out.println(res);
+  }
+  public <T> List<T> filterBySelf(Stream<T> stream, Predicate<T> predicate){
+    List<T> res=stream.reduce(new ArrayList<T>(),(List<T> accu,T ele)->{
+      if(predicate.test(ele)) accu.add(ele);
+      return accu;
+    },(left,right)->{
+      left.addAll(right);
+      return left;
+    });
     return res;
   }
 }
