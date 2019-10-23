@@ -44,9 +44,10 @@ public class Ans3_2 {
   /**小写字母最多的字符串*/
   @Test
   public void findLongestLower() {
-    List<String> strs=asList("","","","");
+    List<String> strs=asList("yuRere","Rere","dfsafRms","Hello World");
     String res=strs.stream().reduce((accum,str)->{
       return lowerNum(accum)>lowerNum(str)?accum:str;
     }).get();
+    System.out.println(res);
   }
 }
