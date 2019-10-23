@@ -7,6 +7,8 @@ import org.junit.Test;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
+
 public class Ans3_2 {
 
   /**
@@ -23,5 +25,28 @@ public class Ans3_2 {
         .map(Ans3_2::mapArtistToNameAndOrigin)
         .collect(Collectors.toList());
     System.out.println(res);
+  }
+  @Test
+  public void total(){
+    long sum=SampleData.getThreeArtists().stream().mapToLong(artist->artist.getMembers().count()).sum();
+    System.out.println(sum);
+  }
+  public static long lowerNum(String str){
+    return str.chars().filter(Character::isLowerCase).count();
+  }
+
+  @Test
+  public void count(){
+    String s="stewtRerreRt";
+    long num=s.chars().filter(Character::isLowerCase).count();
+    System.out.println(num);
+  }
+  /**小写字母最多的字符串*/
+  @Test
+  public void findLongestLower() {
+    List<String> strs=asList("","","","");
+    String res=strs.stream().reduce((accum,str)->{
+      return lowerNum(accum)>lowerNum(str)?accum:str;
+    }).get();
   }
 }
