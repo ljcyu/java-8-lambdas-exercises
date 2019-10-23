@@ -2,10 +2,14 @@ package self;
 
 import com.insightfullogic.java8.examples.chapter1.Artist;
 import com.insightfullogic.java8.examples.chapter1.SampleData;
+import javassist.tools.rmi.Sample;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 
@@ -49,5 +53,20 @@ public class Ans3_2 {
       return lowerNum(accum)>lowerNum(str)?accum:str;
     }).get();
     System.out.println(res);
+  }
+  @Test
+  public void testSelfMap(){
+    List<String> res=mapBySelf(SampleData.getThreeArtists().stream(),Artist::getName);
+    System.out.println(res);
+  }
+  public <T,R> List<R> mapBySelf(Stream<T> stream, Function<T,R> function){
+    List<R> res=stream.reduce(new ArrayList<R>(),(List<R> accu,T ele)->{
+      accu.add(function.apply(ele));
+      return accu;
+      },(left,right)->{
+        left.addAll(right);
+        return left;
+      });
+    return res;
   }
 }
