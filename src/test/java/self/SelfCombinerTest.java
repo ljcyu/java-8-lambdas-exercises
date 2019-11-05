@@ -4,6 +4,8 @@ import com.insightfullogic.java8.examples.chapter1.Album;
 import com.insightfullogic.java8.examples.chapter1.SampleData;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 public class SelfCombinerTest {
   @Test
   public void testSelfCombiner(){
@@ -13,6 +15,12 @@ public class SelfCombinerTest {
             StringCombinerBySelf::merge);
     System.out.println(res);
   }
+    @Test
+    public void testJoinByReduce(){
+        ArrayList<String> res= SampleData.getThreeAlbums().stream().map(Album::getName)
+                .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+        System.out.println(res);
+    }
   @Test
   public void testCombinerByStringBuilder(){
     StringBuilder res=SampleData.getThreeAlbums().stream().map(Album::getName)
