@@ -6,13 +6,13 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-public class SelfCombinerTest {
+public class SelfCombiner1Test {
   @Test
   public void testSelfCombiner(){
-    StringCombinerBySelf res= SampleData.getThreeAlbums().stream().map(Album::getName)
-        .reduce(new StringCombinerBySelf(",","[","]"),
-            StringCombinerBySelf::add,
-            StringCombinerBySelf::merge);
+    SelfCombiner1 res= SampleData.getThreeAlbums().stream().map(Album::getName)
+        .reduce(new SelfCombiner1(",","[","]"),
+            SelfCombiner1::add,
+            SelfCombiner1::merge);
     System.out.println(res);
   }
     @Test
@@ -33,7 +33,7 @@ public class SelfCombinerTest {
   @Test
   public void testCombinerByCollector() {
     String res = SampleData.getThreeAlbums().stream().map(Album::getName)
-        .collect(new StringCollectorBySelf(",","[","]"));
+        .collect(new SelfCollector1(",","[","]"));
     System.out.println(res);
   }
 }
