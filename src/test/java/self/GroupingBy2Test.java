@@ -22,4 +22,16 @@ public class GroupingBy2Test {
         Map<String,List<Artist>> res=SampleData.getThreeArtists().stream().collect(new GroupingBy2<>(Artist::getNationality));
         System.out.println(res);
     }
+    @Test
+    public void testByGroupingBy3(){
+        Stream<String> s = Stream.of("John", "Paul", "George", "John","Paul", "John");
+        Map<String, List<String>> res=s.collect(new GroupingBy3<>(it->""+it.charAt(0)));
+        System.out.println(res);
+    }
+
+    @Test
+    public void testArtistByGroupingBy3(){
+        Map<String,List<Artist>> res=SampleData.getThreeArtists().stream().collect(new GroupingBy3<>(Artist::getNationality));
+        System.out.println(res);
+    }
 }
