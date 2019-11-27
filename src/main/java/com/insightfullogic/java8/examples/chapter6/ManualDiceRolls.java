@@ -7,7 +7,7 @@ import java.util.concurrent.*;
 
 // BEGIN ManualDiceRolls
 public class ManualDiceRolls {
-
+    //掷骰子的次数
     private static final int N = 100000000;
 
     private final double fraction;
@@ -17,8 +17,10 @@ public class ManualDiceRolls {
     private final int workPerThread;
 
     public static void main(String[] args) {
+        long start=System.currentTimeMillis();
         ManualDiceRolls roles = new ManualDiceRolls();
         roles.simulateDiceRoles();
+        System.out.println(System.currentTimeMillis()-start);
     }
 
     public ManualDiceRolls() {
@@ -26,7 +28,7 @@ public class ManualDiceRolls {
         results = new ConcurrentHashMap<>();
         numberOfThreads = Runtime.getRuntime().availableProcessors();
         executor = Executors.newFixedThreadPool(numberOfThreads);
-        workPerThread = N / numberOfThreads;
+        workPerThread = N / numberOfThreads;//每个线程分到任务
     }
 
     public void simulateDiceRoles() {
@@ -58,6 +60,7 @@ public class ManualDiceRolls {
         };
     }
 
+    //计算该值出现的概率
     private void accumulateResult(int entry) {
         results.compute(entry, (key, previous) ->
             previous == null ? fraction
@@ -81,6 +84,5 @@ public class ManualDiceRolls {
         });
         executor.shutdown();
     }
-
 }
 // END ManualDiceRolls
