@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.summingDouble;
 
 //模仿第六章例子的人工掷骰子
 public class SelfManualDiceRolls {
@@ -13,7 +18,10 @@ public class SelfManualDiceRolls {
   Map<Integer,Double> results=new HashMap<>();
   int workPerThread;
   public static void main(String[] args){
-    new SelfManualDiceRolls().test();
+    long start=System.currentTimeMillis();
+    //new SelfManualDiceRolls().test();
+    new SelfManualDiceRolls().parallel();
+    System.out.println(System.currentTimeMillis()-start);
   }
   public void test(){
     List<Future> futures=new ArrayList<>();
@@ -41,5 +49,14 @@ public class SelfManualDiceRolls {
     });
     results.entrySet().forEach(System.out::println);
     service.shutdown();
+  }
+  public void parallel(){
+    IntStream.range(0,N).parallel().map(i->{
+      ThreadLocalRandom random = ThreadLocalRandom.current();
+      int firstNum = random.nextInt(1, 7);
+      int secondNum = random.nextInt(1, 7);
+      int sum = firstNum + secondNum;
+      return sum;
+    }).boxed().collect(groupingBy(it->it, summingDouble(it->1.0/N))).entrySet().forEach(System.out::println);
   }
 }
